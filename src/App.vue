@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <compHeader/>
+    <router-view/>
     <compFooter/>
   </div>
 </template>
