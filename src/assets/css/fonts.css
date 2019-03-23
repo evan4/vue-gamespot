@@ -1,0 +1,52 @@
+@font-face {
+	font-family: 'Roboto';
+	src: local('Roboto Light'), local('Roboto-Light'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Light.woff2') format('woff2'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Light.woff') format('woff'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Light.ttf') format('truetype'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Light.svg#Roboto-Light') format('svg');
+	font-weight: 300;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Roboto';
+	src: local('Roboto'), local('Roboto-Regular'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Regular.woff2') format('woff2'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Regular.woff') format('woff'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Regular.ttf') format('truetype'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Regular.svg#Roboto-Regular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Roboto';
+	src: local('Roboto Medium'), local('Roboto-Medium'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Medium.woff2') format('woff2'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Medium.woff') format('woff'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Medium.ttf') format('truetype'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Medium.svg#Roboto-Medium') format('svg');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Roboto';
+	src: local('Roboto Bold'), local('Roboto-Bold'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Bold.woff2') format('woff2'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Bold.woff') format('woff'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Bold.ttf') format('truetype'),
+		url('../fonts/Roboto/hinted-subset-Roboto-Bold.svg#Roboto-Bold') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bungee Inline';
+    src: local('Bungee Inline'), local('BungeeInline-Regular'),
+        url('../fonts/Bungee/BungeeInline-Regular.woff2') format('woff2'),
+        url('../fonts/Bungee/BungeeInline-Regular.woff') format('woff'),
+        url('../fonts/Bungee/BungeeInline-Regular.ttf') format('truetype'),
+        url('../fonts/Bungee/BungeeInline-Regular.svg#BungeeInline-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
