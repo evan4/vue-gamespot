@@ -2,12 +2,16 @@ import Vue from 'vue';
 import { MdCard } from 'vue-material/dist/components';
 import 'vue-material/dist/vue-material.min.css';
 import VueResource from 'vue-resource';
-import store from './components/Store/store.js';
+import Vuelidate from 'vuelidate'
 
 Vue.use(MdCard);
 
 Vue.use(VueResource);
 Vue.http.options.root = "https://auth-user-a126c.firebaseio.com/";
+
+Vue.use(Vuelidate);
+
+import store from './components/Store/store.js';
 
 import App from './App.vue'
 import router from './routes';
