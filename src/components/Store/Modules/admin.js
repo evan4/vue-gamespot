@@ -10,10 +10,13 @@ const admin = {
         email: '',
         token: '',
         refresh: '',
-        users: null
+        users: null,
+        authFailed: false
     },
     getters: {
-
+        authFailed(state){
+            return state.authFailed;
+        }
     },
     mutations: {
         auth(state, authData) {
@@ -21,6 +24,13 @@ const admin = {
             state.token = authData.idToken;
             state.refresh = authData.refreshToken
         },
+        authFailed(state, type){
+            if (type === 'reset') {
+                state.authFailed = false;
+            }else{
+                state.authFailed = true;
+            }
+        }
     },
     actions: {
         singin({ commit }, payload) {
@@ -38,7 +48,7 @@ const admin = {
                     console.log(authData);
                 })
                 .catch(error => {
-                    console.log(error);
+                    commit('authFailed');
                 })
         },
     }

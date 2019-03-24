@@ -7,7 +7,7 @@
                     :class="{invalid: $v.formData.email.$error}">
                     <label for="email">Email</label>
                     <input type="email" name="email" 
-                        v-model="formData.email"
+                        v-model.trim="formData.email"
                         @blur="$v.formData.email.$touch()"
                         id="email">
                     <div v-if="$v.formData.email.$error">
@@ -21,7 +21,7 @@
                     :class="{invalid: $v.formData.password.$error}">
                     <label for="password">Password</label>
                     <input type="password" name="password" 
-                        v-model="formData.password"
+                        v-model.trim="formData.password"
                         @blur="$v.formData.password.$touch()"
                         id="password">
                     <div v-if="$v.formData.password.$error">
@@ -34,6 +34,8 @@
                 <button type="submit">Sing in</button>
                 <p class="error_lable"
                     v-if="error">Something is goes wrong</p>
+                  <p class="error_lable"
+                    v-if="authFailed">Please check your email or password</p>  
             </form>
             
         </div>
@@ -43,7 +45,7 @@
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators';
 import { setTimeout } from 'timers';
-
+import { mapGetters } from 'vuex';
 export default {
     data(){
         return{
@@ -66,6 +68,9 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters('admin', ['authFailed'])
+    },
     methods: {
         onSubmit(){
             if(!this.$v.$invalid) {
@@ -79,6 +84,9 @@ export default {
 
             
         }
+    },
+    destroyed() {
+        this.$store.commit('admin/authFailed', 'reset');
     }
 }
 </script>
