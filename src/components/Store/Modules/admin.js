@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import router from '../../../routes';
 
 const FbAuth = "https://www.googleapis.com/identitytoolkit/v3/relyingparty",
     FbApiKey = "AIzaSyDNVIktvueMPwZcfSnaGc-TVVkp7M2xMz0";
@@ -14,15 +15,22 @@ const admin = {
         authFailed: false
     },
     getters: {
+        isAuth(state){
+            return state.token ? true : false;
+        },
         authFailed(state){
             return state.authFailed;
         }
     },
     mutations: {
-        auth(state, authData) {
+        authuser(state, authData) {
             state.email = authData.email;
             state.token = authData.idToken;
             state.refresh = authData.refreshToken
+
+            if (authData.type === 'singin') {
+                router.push('dashboard');
+            }
         },
         authFailed(state, type){
             if (type === 'reset') {
@@ -30,6 +38,15 @@ const admin = {
             }else{
                 state.authFailed = true;
             }
+        },
+        logoutuser(state){
+            state.email = '';
+            state.token = '';
+            state.refresh = '';
+            localStorage.removeItem('email');
+            localStorage.removeItem('token');
+            localStorage.removeItem('refresh');
+            router.push('/')
         }
     },
     actions: {
@@ -40,7 +57,10 @@ const admin = {
                 })
                 .then(response => response.json())
                 .then(authData => {
-                    commit("auth", authData)
+                    commit("authuser", {
+                        ...authData,
+                        type: 'singin'
+                    })
 
                     localStorage.setItem('token', authData.idToken);
                     localStorage.setItem('refresh', authData.refreshToken);
@@ -50,7 +70,7 @@ const admin = {
                 .catch(error => {
                     commit('authFailed');
                 })
-        },
+        }
     }
 };
 
