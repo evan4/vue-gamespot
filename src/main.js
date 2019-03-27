@@ -1,12 +1,16 @@
 import Vue from 'vue';
-import { MdCard } from 'vue-material/dist/components';
+import { MdCard, MdButton, MdDialog, MdContent } from 'vue-material/dist/components';
 import 'vue-material/dist/vue-material.min.css';
 import VueResource from 'vue-resource';
 import Vuelidate from 'vuelidate'
 import wysiwyg from "vue-wysiwyg";
 
 Vue.use(wysiwyg, {});
+
 Vue.use(MdCard);
+Vue.use(MdButton);
+Vue.use(MdDialog);
+Vue.use(MdContent);
 
 Vue.use(VueResource);
 Vue.http.options.root = "https://auth-user-a126c.firebaseio.com/";

@@ -49,6 +49,13 @@
             </div>
             <button type="submit">Add post</button>
         </form>
+        <md-dialog :md-active="dialog">
+            <p>Your post has no content</p>
+            <md-dialog-actions>
+                <md-button classs="md-primary" @click="dialogCancel">Oop, I want to add it</md-button>
+                <md-button class="md-primary" @click="dialogConfirm">Yes I am sure</md-button>
+            </md-dialog-actions>
+        </md-dialog>
     </div>
 </template>
 
@@ -59,6 +66,7 @@ export default {
     data(){
         return{
             error: false,
+            dialog: false,
             formData: {
                 title: '',
                 desc: '',
@@ -70,12 +78,27 @@ export default {
     methods: {
         submitHandler(){
              if(!this.$v.$invalid) {
-                //this.$store.dispatch('admin/singin', this.formData);
+                 if (this.formData.content === '') {
+                     this.dialog = true;
+                 }else{
+                     this.addPost();
+                 }
+                
             }else{
                 this.error = true;
                 
             }
-        }   
+        },
+        addPost(){
+            //this.$store.dispatch('admin/singin', this.formData);
+        },
+        dialogCancel(){
+            this.dialog = false;
+        },
+        dialogConfirm(){
+            this.dialog = false;
+            this.addPost();
+        }
     },
      validations: {
        formData: {
