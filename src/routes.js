@@ -6,6 +6,10 @@ import Singin from './components/SingIn';
 import Dashboard from './components/Dashboard';
 import store from './components/Store/store';
 
+import MainDashboard from './components/Dashboard/main';
+import AddPost from './components/Dashboard/addPost';
+import PostsList from './components/Dashboard/listPosts';
+
 Vue.use(VueRouter);
 
 const authGuard = {
@@ -46,7 +50,9 @@ const routes = [
     { path:'/singin',component:Singin , ...authGuard },
     { path:'/dashboard',component:Dashboard,
     children:[
-        
+        { path:'',component:MainDashboard},
+        { path:'posts_list',component:PostsList},
+        { path:'add_posts',component:AddPost},
     ], ...authGuard },
 ];
 
