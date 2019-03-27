@@ -12,6 +12,7 @@ const admin = {
         token: '',
         refresh: '',
         users: null,
+        refreshLoading: true,
         authFailed: false
     },
     getters: {
@@ -20,6 +21,9 @@ const admin = {
         },
         authFailed(state){
             return state.authFailed;
+        },
+        refreshLoading(state){
+            return state.refreshLoading;
         }
     },
     mutations: {
@@ -47,9 +51,38 @@ const admin = {
             localStorage.removeItem('token');
             localStorage.removeItem('refresh');
             router.push('/')
+        },
+        refreshLoading(state){
+            state.refreshLoading = false;
         }
     },
     actions: {
+        refreshToken({ commit }){
+            const refreshToken = localStorage.getItem('refresh');
+            if (!refreshToken){
+                commit('refreshLoading');
+                return;
+            }  
+      
+            Vue.http.post(`https://securetoken.googleapis.com/v1/token?key=${FbApiKey}`, {
+              grant_type: "refresh_token",
+              refresh_token: refreshToken
+            })
+            .then(response => response.json())
+            .then(authData => {
+              commit("authuser", {
+                idToken: authData.id_token,
+                refreshToken: authData.refresh_token,
+                type: 'refresh'
+              })
+              commit('refreshLoading');
+              localStorage.setItem('token', authData.id_token);
+              localStorage.setItem('refresh', authData.refresh_token);
+            })
+            .catch(error => {
+              console.log(error);
+            })
+          },
         singin({ commit }, payload) {
             Vue.http.post(`${FbAuth}/verifyPassword?key=${FbApiKey}`, {
                     ...payload,
