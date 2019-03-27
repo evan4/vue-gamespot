@@ -1,15 +1,107 @@
 <template>
-    <div>
-        add posts
+    <div class="dashboard_form">
+        <h1>Add post</h1>
+        <form @submit.prevent="submitHandler">
+            <div class="input_field"
+                :class="{invalid: $v.formData.title.$error}">
+                <label for="title">Titke</label>
+                <input type="text" name="title" 
+                    @blur="$v.formData.title.$touch()"
+                    v-model="formData.title">
+                <div v-if="$v.formData.title.$error">
+                    <p class="error_lable"
+                        v-if="!$v.formData.title.required">This field is required</p>
+                </div>
+            </div>
+            <div class="input_field"
+                :class="{invalid: $v.formData.desc.$error}">
+                <label for="desc">Descriptiosn</label>
+                <input type="text" name="desc" 
+                    @blur="$v.formData.desc.$touch()"
+                    v-model="formData.desc">
+                <div v-if="$v.formData.desc.$error">
+                    <p class="error_lable"
+                        v-if="!$v.formData.desc.required">This field is required</p>
+                    <p class="error_lable"
+                        v-if="!$v.formData.desc.maxLength">Must not be greater than {{$v.formData.desc.$params.maxLength.max }} characters</p>
+                </div>
+            </div>
+            <div class="input_field">
+                <label for="content">Content</label>
+                <wysiwyg id="content" v-model="formData.content" />
+            </div>
+            <div class="input_field"
+                :class="{invalid: $v.formData.rating.$error}">
+                <label for="rating">Rating</label>
+                <select 
+                    @blur="$v.formData.rating.$touch()"
+                    v-model="formData.rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <div v-if="$v.formData.rating.$error">
+                    <p class="error_lable"
+                        v-if="!$v.formData.rating.required">Mark rating</p>
+                </div>
+            </div>
+            <button type="submit">Add post</button>
+        </form>
     </div>
 </template>
 
 <script>
-export default {
+import { required, maxLength } from 'vuelidate/lib/validators';
 
+export default {
+    data(){
+        return{
+            error: false,
+            formData: {
+                title: '',
+                desc: '',
+                content: '',
+                rating: ''
+            }
+        }
+    },
+    methods: {
+        submitHandler(){
+             if(!this.$v.$invalid) {
+                //this.$store.dispatch('admin/singin', this.formData);
+            }else{
+                this.error = true;
+                
+            }
+        }   
+    },
+     validations: {
+       formData: {
+            title: {
+                required
+            },
+            desc: {
+                required,
+                maxLength: maxLength(100)
+            },
+            rating: {
+                required
+            },
+        }
+    },
 }
 </script>
 
-<style>
+<style scoped>
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
 
+.input_field.invalid input,
+.input_field.invalid select{
+    border: 1px solid red;
+}
+.error_lable{
+    color: red;
+}
 </style>

@@ -3,7 +3,9 @@ import { MdCard } from 'vue-material/dist/components';
 import 'vue-material/dist/vue-material.min.css';
 import VueResource from 'vue-resource';
 import Vuelidate from 'vuelidate'
+import wysiwyg from "vue-wysiwyg";
 
+Vue.use(wysiwyg, {});
 Vue.use(MdCard);
 
 Vue.use(VueResource);
