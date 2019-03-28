@@ -19,8 +19,7 @@
 export default {
     props: {
         linkTo: {
-            type: String,
-            required: true,
+            type: String
         },
         addClass: Array,
         ovStyle: Object,
