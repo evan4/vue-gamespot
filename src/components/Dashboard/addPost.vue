@@ -100,14 +100,15 @@ export default {
             }
         },
         addPost(){
-            //this.formData.img = this.imageUpload.url;
-            //this.$store.dispatch('admin/addPost', this.formData);
-            //
-           this.clearForm();
+            this.formData.img = this.imageUpload.url;
+            this.$store.dispatch('admin/addPost', this.formData);
+            this.clearForm();
         },
         clearForm(){
             this.$store.commit('admin/clearImage');
-            this.$refs.myFile.value = '';
+            if(this.$refs.myFile){
+              this.$refs.myFile.value = '';  
+            }
             this.formData = {
                 title: '',
                 desc: '',
@@ -126,7 +127,7 @@ export default {
         },
         processFile(e){
             let file = e.target.files[0];
-            //this.$store.dispatch('admin/imageUpload', file);
+            this.$store.dispatch('admin/imageUpload', file);
         }
     },
     computed: {
