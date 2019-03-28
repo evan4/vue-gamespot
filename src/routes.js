@@ -10,6 +10,7 @@ import MainDashboard from './components/Dashboard/main';
 import AddPost from './components/Dashboard/addPost';
 import PostsList from './components/Dashboard/listPosts';
 import Post from './components/Post/Post';
+import NotFound from './components/404';
 
 Vue.use(VueRouter);
 
@@ -56,6 +57,7 @@ const routes = [
         { path:'add_posts',component:AddPost},
     ], ...authGuard },
     { path:'/post/:id',component:Post },
+    { path: '*', component:NotFound },
 ];
 
 export default new VueRouter({
