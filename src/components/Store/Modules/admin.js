@@ -13,7 +13,9 @@ const admin = {
         refresh: '',
         users: null,
         refreshLoading: true,
-        authFailed: false
+        authFailed: false,
+        addPost: false,
+        imageUpload: null
     },
     getters: {
         isAuth(state){
@@ -24,6 +26,12 @@ const admin = {
         },
         refreshLoading(state){
             return state.refreshLoading;
+        },
+        addPostStatus(state){
+            return state.addPost;
+        },
+        imageUpload(state){
+            return state.imageUpload;
         }
     },
     mutations: {
@@ -54,6 +62,18 @@ const admin = {
         },
         refreshLoading(state){
             state.refreshLoading = false;
+        },
+        addPost(state){
+            state.addPost = true;
+        },
+        clearPost(state){
+            state.addPost = false;
+        },
+        imageUpload(state, imageData){
+            state.imageUpload = imageData;
+        },
+        clearImage(state){
+            state.imageUpload = '';
         }
     },
     actions: {
@@ -103,7 +123,43 @@ const admin = {
                 .catch(error => {
                     commit('authFailed');
                 })
-        }
+        },
+        addPost({ commit, state }, payload){
+            Vue.http.post(`posts.json?auth=${state.token}`, {
+                ...payload,
+            })
+            .then(response => response.json())
+            .then(authData => {
+                commit('addPost');
+                setTimeout(() => {
+                    commit('clearPost');
+                }, 3000);
+            })
+            .catch(error => {
+               console.log(error);
+            })
+        },
+        imageUpload({ commit }, file){
+            const cloudinarY_url = 'https://api.cloudinary.com/v1_1/evan4mc/image/upload',
+                cloudibary_preset = 'x6wkaog2';
+            
+            let formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', cloudibary_preset);
+
+             Vue.http.post(cloudinarY_url, formData, {
+                 headers: {
+                     'Content-type': 'application/x-www-form-urlencoded'
+                 }
+             })
+            .then(response => response.json())
+            .then(response => {
+                commit('imageUpload', response);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        },
     }
 };
 

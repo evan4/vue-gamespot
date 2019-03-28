@@ -2,6 +2,15 @@
     <div class="dashboard_form">
         <h1>Add post</h1>
         <form @submit.prevent="submitHandler">
+            <div class="input_field">
+                <label for="title">Image</label>
+                <input type="file" name="image" 
+                    ref="myFile"
+                    @change="processFile">
+            </div>
+            <div v-if="imageUpload">
+                <img :src="imageUpload.url">
+            </div>
             <div class="input_field"
                 :class="{invalid: $v.formData.title.$error}">
                 <label for="title">Titke</label>
@@ -56,11 +65,13 @@
                 <md-button class="md-primary" @click="dialogConfirm">Yes I am sure</md-button>
             </md-dialog-actions>
         </md-dialog>
+        <div v-if="addPostStatus" class="post_succesfull">Your post was posted</div>
     </div>
 </template>
 
 <script>
 import { required, maxLength } from 'vuelidate/lib/validators';
+import { mapGetters } from 'vuex';
 
 export default {
     data(){
@@ -71,7 +82,8 @@ export default {
                 title: '',
                 desc: '',
                 content: '',
-                rating: ''
+                rating: '',
+                img: ''
             }
         }
     },
@@ -83,14 +95,27 @@ export default {
                  }else{
                      this.addPost();
                  }
-                
             }else{
                 this.error = true;
-                
             }
         },
         addPost(){
-            //this.$store.dispatch('admin/singin', this.formData);
+            //this.formData.img = this.imageUpload.url;
+            //this.$store.dispatch('admin/addPost', this.formData);
+            //
+           this.clearForm();
+        },
+        clearForm(){
+            this.$store.commit('admin/clearImage');
+            this.$refs.myFile.value = '';
+            this.formData = {
+                title: '',
+                desc: '',
+                content: '',
+                rating: '',
+                img: ''
+            };
+            this.$v.$reset();
         },
         dialogCancel(){
             this.dialog = false;
@@ -98,7 +123,17 @@ export default {
         dialogConfirm(){
             this.dialog = false;
             this.addPost();
+        },
+        processFile(e){
+            let file = e.target.files[0];
+            //this.$store.dispatch('admin/imageUpload', file);
         }
+    },
+    computed: {
+        ...mapGetters('admin', ['addPostStatus', 'imageUpload'])
+    },
+    destroyed(){
+        this.clearForm();
     },
      validations: {
        formData: {
