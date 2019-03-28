@@ -9,6 +9,7 @@ import store from './components/Store/store';
 import MainDashboard from './components/Dashboard/main';
 import AddPost from './components/Dashboard/addPost';
 import PostsList from './components/Dashboard/listPosts';
+import Post from './components/Post/Post';
 
 Vue.use(VueRouter);
 
@@ -54,6 +55,7 @@ const routes = [
         { path:'posts_list',component:PostsList},
         { path:'add_posts',component:AddPost},
     ], ...authGuard },
+    { path:'/post/:id',component:Post },
 ];
 
 export default new VueRouter({

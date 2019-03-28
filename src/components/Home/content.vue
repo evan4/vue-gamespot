@@ -19,7 +19,7 @@
                 <md-card-actions>
                     <app-button 
                     type="link"
-                    :linkTo="`/posts/${post.id}`"
+                    :linkTo="`/post/${post.id}`"
                     >See review</app-button>
                 </md-card-actions>
             </md-card>

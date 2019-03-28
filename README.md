@@ -1,1 +1,1 @@
-vue app wuth firebase
+vue game review app wuth firebase, vuex and cloudinary for images.
