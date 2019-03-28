@@ -15,7 +15,8 @@ const admin = {
         refreshLoading: true,
         authFailed: false,
         addPost: false,
-        imageUpload: null
+        imageUpload: null,
+        adminPost: null
     },
     getters: {
         isAuth(state){
@@ -32,6 +33,9 @@ const admin = {
         },
         imageUpload(state){
             return state.imageUpload;
+        },
+        getAdminPosts(state){
+            return state.adminPost;
         }
     },
     mutations: {
@@ -74,7 +78,10 @@ const admin = {
         },
         clearImage(state){
             state.imageUpload = '';
-        }
+        },
+        getAadminPosts(state, payload){
+            state.adminPost = payload;
+        },
     },
     actions: {
         refreshToken({ commit }){
@@ -160,6 +167,37 @@ const admin = {
                 console.log(error);
             })
         },
+        getAdminPosts({commit}){
+            Vue.http.get(`posts.json`)
+               .then(response => response.json())
+               .then(response => {
+                   const posts = [];
+                   for (const key in response) {
+                       if (response.hasOwnProperty(key)) {
+                           posts.push({
+                               ...response[key],
+                               id: key
+                           })
+                       }
+                   }
+                   commit('getAadminPosts', posts.reverse());
+               })
+               .catch(error => {
+               console.log(error);
+               })
+       },
+        deletePost({commit, state}, payload){
+            console.log(state);
+            Vue.http.delete(`posts/${payload}.json?auth=${state.token}`)
+                .then(response => {
+                    let newpost = [];
+                    newpost = state.adminPost.filter(item => item.id !== payload);
+                    commit('getAadminPosts', newpost);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
     }
 };
 

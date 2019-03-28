@@ -24,7 +24,7 @@ const posts = {
         },
         clearPost(state, payload){
             state.post = null;
-        }
+        },
     },
     actions: {
         getAllPosts({commit}, payload){
@@ -64,7 +64,7 @@ const posts = {
                 .catch(error => {
                 console.log(error);
                 })
-        }
+        },
     }
 };
 
